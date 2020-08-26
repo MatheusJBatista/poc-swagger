@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SwaggerDocs</name>
+    </assembly>
+    <members>
+        <member name="P:SwaggerDocs.Classes.Test.Name">
+            <summary>
+            Nome de alguma coisa
+            </summary>
+        </member>
+        <member name="M:SwaggerDocs.Controllers.WeatherForecastController.Post(SwaggerDocs.Classes.Test)">
+            <summary>
+            Teste
+            </summary>
+            <remarks>
+            Validação de campos:
+            
+                {
+                   "name": {
+                     type: string,
+                     required: true,
+                     summary: nome de alguma coisa
+                   },
+                   "identifier": string + obrigatorio,
+                   "birthdate": datetime + opcional
+                }
+            </remarks>
+            <param name="test.Name.Name">Payload test</param>
+            <required name="test.Name">Requerido</required>
+            <returns></returns>
+        </member>
+        <member name="M:SwaggerDocs.Controllers.WeatherForecastController.AnotherPost(SwaggerDocs.Classes.Test2)">
+            <summary>
+            
+            </summary>
+            <param name="test2"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
