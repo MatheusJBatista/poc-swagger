@@ -3,9 +3,6 @@ using Microsoft.OpenApi.Models;
 using SwaggerDocs.Classes;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace SwaggerDocs.Tests
 {
@@ -14,38 +11,55 @@ namespace SwaggerDocs.Tests
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
             var type = context.Type;
+            
             if (type == typeof(Test2))
             {
-                schema.Required.Add(nameof(Test2.AnotherProperty));
+                schema.Required.Add("anotherProperty");
 
-                schema.Properties[nameof(Test2.AnotherProperty)].Description = "Outra propriedade teste 2";
+                schema.Properties["anotherProperty"].Description = "Outra propriedade teste 2";
 
-                schema.Properties[nameof(Test2.ThisIsTheBestProperty)].Description = "melhor propriedade teste 2";
+                schema.Properties["thisIsTheBestProperty"].Description = "melhor propriedade teste 2";
 
-                schema.Properties[nameof(Test2.Batman)].Description = "batman?";
+                schema.Properties["batman"].Description = "batman?";
 
-                //var teste = OpenApiAnyFactory.CreateFor(schema, new List<teste>() { Classes.teste.Arvore, Classes.teste.Batman });
-
-                schema.Properties[nameof(Test2.MyEnum)].Description = "a";
+                schema.Properties["myEnum"].Description = "a";
 
             }
 
-            if (context.Type.IsEnum)
+            if (type.IsEnum)
+                SetEnumExtensionValues(schema, type);
+        }
+
+        private static void SetEnumExtensionValues(OpenApiSchema schema, Type type)
+        {
+            var enumValues = Enum.GetValues(type);
+            var enumExtensionValues = new OpenApiArray();
+            
+            foreach (var enumValue in enumValues)
             {
-                schema.Enum.Clear();
-                Enum.GetNames(context.Type)
-                    .ToList()
-                    .ForEach(n => schema.Enum.Add(new OpenApiString(n)));
-                //.ForEach(n => schema.Enum.Add(new OpenApiObject(new { Key: n })));
+                var item = new OpenApiObject
+                {
+                    ["name"] = new OpenApiString(Enum.GetName(type, enumValue)),
+                    ["value"] = new OpenApiString(enumValue.GetHashCode().ToString())
+                };
+
+                enumExtensionValues.Add(item);
             }
+
+            schema.Extensions.Add("x_ms_enum",
+                new OpenApiObject
+                {
+                    ["values"] = enumExtensionValues
+                }
+            );
         }
     }
 }
 
-public class RequestPostTwoDocument : IDocumentFilter
-{
-    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
-    {
-        //throw new System.NotImplementedException();
-    }
-}
+//public class RequestPostTwoDocument : IDocumentFilter
+//{
+//    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+//    {
+//        //throw new System.NotImplementedException();
+//    }
+//}

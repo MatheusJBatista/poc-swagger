@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SwaggerDocs.Tests;
 using System;
+using Swashbuckle.Swagger;
+
 using System.IO;
 using System.Reflection;
 
@@ -25,7 +27,6 @@ namespace SwaggerDocs
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.DocumentFilter<RequestPostTwoDocument>();
                 c.SchemaFilter<RequestPostTwoFilter>();
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);

@@ -3,11 +3,11 @@ using Swashbuckle.Swagger.Annotations;
 
 namespace SwaggerDocs.Classes
 {
-    public enum teste
+    public enum MyEnumerator
     {
-        Arvore,
-        Arvorinha,
-        Batman
+        Arvore = 1,
+        Arvorinha = 2,
+        Batman = 99
     }
 
     public class Test2
@@ -15,6 +15,6 @@ namespace SwaggerDocs.Classes
         public string AnotherProperty { get; set; }
         public string ThisIsTheBestProperty { get; set; }
         public string Batman { get; set; }
-        public teste MyEnum { get; set; }
+        public MyEnumerator MyEnum { get; set; }
     }
 }
